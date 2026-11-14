@@ -63,6 +63,16 @@
     aspect-ratio: 16 / 9; position: relative;
   }
   .video video { width: 100%; height: 100%; display: block; object-fit: contain; background: #000; }
+  .unmute {
+    position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
+    display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+    font: 800 15px/1 Archivo, sans-serif; text-transform: uppercase; letter-spacing: .05em;
+    color: #041000; background: var(--green); border: 0; border-radius: 999px; padding: 11px 18px;
+    box-shadow: 0 6px 24px rgba(0,0,0,.5), 0 0 0 4px rgba(125,255,58,.2);
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+  .unmute[hidden] { display: none; }
+  @keyframes pulse { 50% { box-shadow: 0 6px 24px rgba(0,0,0,.5), 0 0 0 9px rgba(125,255,58,.12); } }
   .video .soon {
     position: absolute; inset: 0; display: grid; place-items: center; text-align: center;
     color: var(--muted); font-size: 15px; padding: 16px;
@@ -122,9 +132,13 @@
       <p class="proof">I've been personally mentored <strong>1-on-1</strong> by people who currently manage over <strong>$1 million a month</strong> in ad spend and have collectively managed <strong>$15M+</strong> in ads.</p>
 
       <div class="video">
-        <video id="vsl" controls playsinline preload="metadata" poster="assets/vsl-poster.jpg">
+        <video id="vsl" controls autoplay muted playsinline preload="auto" poster="assets/vsl-poster.jpg">
           <source src="assets/vsl.mp4" type="video/mp4">
         </video>
+        <button class="unmute" id="unmute" type="button" aria-label="Turn sound on">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>
+          Tap for sound
+        </button>
       </div>
     </section>
 
@@ -140,7 +154,7 @@
     </div>
 
     <section class="pillars" aria-label="Our values">
-      <div class="pillar"><b>HONEST</b><span>Straight talk, no fluff</span></div>
+      <div class="pillar"><b>HONEST</b><span>All data, no luck</span></div>
       <div class="pillar"><b>EFFECTIVE</b><span>Ads built to convert</span></div>
       <div class="pillar"><b>RESULTS</b><span>Repeatable, AI-powered systems</span></div>
     </section>
@@ -152,6 +166,14 @@
   </footer>
 <script>
   document.getElementById('y').textContent = new Date().getFullYear();
+  // Browsers only allow autoplay with the sound off, so start muted and offer one tap for sound.
+  (function () {
+    var v = document.getElementById('vsl'), b = document.getElementById('unmute');
+    function soundOn() { v.muted = false; v.currentTime = 0; v.play(); b.hidden = true; }
+    b.addEventListener('click', soundOn);
+    v.addEventListener('volumechange', function () { if (!v.muted) b.hidden = true; });
+    var p = v.play(); if (p && p.catch) p.catch(function () {});
+  })();
 </script>
 </body>
 </html>
