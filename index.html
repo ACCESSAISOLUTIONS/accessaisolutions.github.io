@@ -97,7 +97,11 @@
 
   .clients {
     display: flex; justify-content: center; align-items: center; flex-wrap: nowrap;
-    gap: clamp(20px, 6vw, 56px); max-width: 680px; margin: 28px auto 0;
+    gap: clamp(20px, 6vw, 56px); max-width: 680px; margin: 12px auto 0;
+  }
+  .clients-label {
+    text-align: center; margin-top: 30px; color: var(--muted); opacity: .8;
+    font: 600 12px/1.2 Archivo, sans-serif; text-transform: uppercase; letter-spacing: .14em;
   }
   .clients img {
     height: clamp(56px, 15vw, 96px); width: auto; flex: 0 0 auto;
@@ -164,7 +168,8 @@
       <small>1-hour call · pick a time that works for you</small>
     </div>
 
-    <section class="clients" aria-label="Businesses I've worked with">
+    <p class="clients-label">Client partners</p>
+    <section class="clients" aria-label="Client partners">
       <img src="assets/clients/unk-on-the-grill.png" alt="Unk on the Grill">
       <img src="assets/clients/ai4blacks.png" alt="AI4Blacks">
       <img src="assets/clients/villanu-beauty.png" alt="Villanu Beauty">
