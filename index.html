@@ -95,6 +95,17 @@
   .btn:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
   .cta small { display: block; margin-top: 12px; color: var(--muted); font-size: 14px; }
 
+  .clients {
+    display: flex; justify-content: center; align-items: center; flex-wrap: nowrap;
+    gap: clamp(20px, 6vw, 56px); max-width: 680px; margin: 28px auto 0;
+  }
+  .clients img {
+    height: clamp(56px, 15vw, 96px); width: auto; flex: 0 0 auto;
+    opacity: .45; filter: grayscale(1) brightness(1.25);
+    transition: opacity .2s ease, filter .2s ease;
+  }
+  .clients img:hover { opacity: .9; filter: none; }
+
   .pillars {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
     max-width: 680px; margin: 48px auto 0;
@@ -152,6 +163,12 @@
       <a class="btn" href="https://cal.com/accessaisolutions/1-hour-meeting" target="_blank" rel="noopener">Book a Call</a>
       <small>1-hour call · pick a time that works for you</small>
     </div>
+
+    <section class="clients" aria-label="Businesses I've worked with">
+      <img src="assets/clients/unk-on-the-grill.png" alt="Unk on the Grill">
+      <img src="assets/clients/ai4blacks.png" alt="AI4Blacks">
+      <img src="assets/clients/villanu-beauty.png" alt="Villanu Beauty">
+    </section>
 
     <section class="pillars" aria-label="Our values">
       <div class="pillar"><b>HONEST</b><span>All data, no luck</span></div>
