@@ -110,6 +110,7 @@
   }
   .clients img:hover { opacity: .9; filter: none; }
   .clients img.original { border-radius: 8px; }
+  .clients img.wide { height: clamp(30px, 8vw, 52px); }   /* long, wide logos: shorter so the width matches the others */
 
   .pillars {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
@@ -173,6 +174,7 @@
     <section class="clients" aria-label="Client partners">
       <img src="assets/clients/unk-on-the-grill.png" alt="Unk on the Grill">
       <img class="original" src="assets/clients/unlicensed-barber-therapy.jpg" alt="Unlicensed Barber Therapy">
+      <img class="wide" src="assets/clients/the-a-team.png" alt="The A-Team Real Estate Group">
     </section>
 
     <section class="pillars" aria-label="Our values">
