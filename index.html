@@ -132,7 +132,6 @@
     gap: 18px clamp(20px, 5vw, 44px);
   }
   .clients img.dup { display: none; }   /* copies used only by the phone slideshow */
-  @keyframes logo-slide { to { transform: translateX(-50%); } }
   .clients-label {
     text-align: center; margin-top: 32px; color: var(--muted);
     font: 400 11px/1.2 Inter, sans-serif; text-transform: uppercase; letter-spacing: .12em;
@@ -176,14 +175,13 @@
     }
     .clients-track {
       flex-wrap: nowrap; justify-content: flex-start; gap: 0; width: max-content;
-      animation: logo-slide 16s linear infinite;
+      will-change: transform;
     }
     .clients img { margin-right: 44px; }
     .clients img.dup { display: block; }
   }
   @media (prefers-reduced-motion: reduce) {
     .btn { transition: none; }
-    .clients-track { animation: none; }
     .clients { overflow-x: auto; }
     .clients img.dup { display: none; }
   }
@@ -249,13 +247,31 @@
 <script>
   document.getElementById('y').textContent = new Date().getFullYear();
   window.addEventListener('load', function () { document.documentElement.classList.add('loaded'); });
-  // Copy the client logos once so the phone slideshow loops without a gap (copies are hidden on desktop).
+  // Phone logo slideshow: moves nonstop, frame by frame. When one full set of logos has passed,
+  // it shifts back by exactly one set, which looks identical, so the motion never stops or restarts.
+  // Copies of the logos fill the strip; they are hidden on desktop.
   (function () {
     var t = document.getElementById('clients-track');
-    Array.prototype.slice.call(t.children).forEach(function (img) {
+    var originals = Array.prototype.slice.call(t.children), n = originals.length;
+    for (var k = 0; k < 2; k++) originals.forEach(function (img) {
       var c = img.cloneNode(true); c.classList.add('dup'); c.alt = ''; c.setAttribute('aria-hidden', 'true');
       t.appendChild(c);
     });
+    var phone = matchMedia('(max-width: 560px)'), still = matchMedia('(prefers-reduced-motion: reduce)');
+    var speed = 32, pos = 0, last = null;   // pixels per second
+    function frame(ts) {
+      if (phone.matches && !still.matches) {
+        var setW = t.children[n].offsetLeft - t.children[0].offsetLeft;   // width of one full set
+        if (last !== null && setW > 0) {
+          pos += Math.min(ts - last, 100) / 1000 * speed;
+          if (pos >= setW) pos -= setW;
+        }
+        t.style.transform = 'translate3d(' + (-pos) + 'px,0,0)';
+      } else if (t.style.transform) { t.style.transform = ''; pos = 0; }
+      last = ts;
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
   })();
   // Browsers only allow autoplay with the sound off, so start muted and offer one tap for sound.
   (function () {
