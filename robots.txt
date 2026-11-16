@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://accessaisolutions.io/sitemap.xml
