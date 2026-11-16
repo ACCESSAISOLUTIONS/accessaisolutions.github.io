@@ -140,9 +140,13 @@
   .clients img {
     height: clamp(56px, 15vw, 96px); width: auto; flex: 0 0 auto;
     opacity: .45; filter: grayscale(1) brightness(1.25);
-    transition: opacity .2s ease, filter .2s ease;
   }
-  .clients img:hover { opacity: .9; filter: none; }
+  /* Color-on-hover only for mouse users, and only after the page has loaded,
+     so no logo ever flashes in color while the page is opening or after a tap on a phone. */
+  @media (hover: hover) {
+    .loaded .clients img { transition: opacity .2s ease, filter .2s ease; }
+    .loaded .clients img:hover { opacity: .9; filter: none; }
+  }
   .clients img.original { border-radius: 8px; }
   .clients img.wide { height: clamp(30px, 8vw, 52px); }   /* long, wide logos: shorter so the width matches the others */
 
@@ -244,6 +248,7 @@
   </footer>
 <script>
   document.getElementById('y').textContent = new Date().getFullYear();
+  window.addEventListener('load', function () { document.documentElement.classList.add('loaded'); });
   // Copy the client logos once so the phone slideshow loops without a gap (copies are hidden on desktop).
   (function () {
     var t = document.getElementById('clients-track');
